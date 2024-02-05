@@ -3,4 +3,4 @@ mount
 umount
 bash
 openssh
-net-tools
+iproute2
