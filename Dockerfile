@@ -1,4 +1,9 @@
 # syntax=docker/dockerfile:1
+# Get compatible hostname binary for LIMA
+FROM opensuse/tumbleweed:latest AS hostname
+RUN zypper in -y hostname
+
+# Build wolfi distro for LIMA
 FROM cgr.dev/chainguard/wolfi-base:latest
 
 # Install extra packages
@@ -8,11 +13,17 @@ RUN apk update && \
     grep -v '^#' /extra-packages | xargs apk add
 RUN rm /extra-packages
 
+# Changes root shell to bash
+RUN sed -i "/^root/s/ash/bash/" /etc/passwd
+
 # Add systemd symlink to init
 RUN ln -s /usr/lib/systemd/systemd /sbin/init
 
 # Add wsl.conf file
 COPY wsl-files/wsl.conf /etc/wsl.conf
+
+# Copy hostname binary
+COPY --from=hostname /usr/bin/hostname /bin/hostname
 
 # # Create user
 # ARG USERNAME=${username:-lima}

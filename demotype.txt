@@ -1,0 +1,27 @@
+# New WSL distro
+[enter]
+[pause:1]
+# Powered by ZoomIt DemoType
+[enter]
+[pause:1]
+wsl -l -v
+[enter]
+[paste]
+finch build --output type=tar,dest=rootfs/limawolfi.tar .
+[/paste]
+[enter]
+[pause:5]
+[paste]
+wsl --import limawolfi C:\wsldistros\limawolfi .\rootfs\limawolfi.tar
+[/paste]
+[enter]
+[pause:3]
+wsl -d limawolfi
+[enter]
+[pause:5]
+apk update
+[enter]
+[pause:1]
+ps -ef
+[enter]
+[end]
