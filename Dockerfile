@@ -23,7 +23,11 @@ RUN ln -s /usr/lib/systemd/systemd /sbin/init
 COPY wsl-files/wsl.conf /etc/wsl.conf
 
 # Copy hostname binary
-COPY --from=hostname /usr/bin/hostname /bin/hostname
+COPY --from=hostname /usr/bin/hostname /usr/bin/hostname
+
+# Update the symlink for hostname
+RUN rm /bin/hostname && \
+    ln -s /usr/bin/hostname /bin/hostname
 
 # # Create user
 # ARG USERNAME=${username:-lima}
